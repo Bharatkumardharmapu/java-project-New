@@ -9,7 +9,7 @@ pipeline {
         sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=java_app -Dsonar.projectName='java_app' -Dsonar.host.url=$SonarQube_URL -Dsonar.token=$SonarQube_Access_Token'
       }
     }
-    tage('Qualitygatecheck') {
+  stage('Qualitygatecheck') {
       steps {
         sh '''
         chmod +x qualitygatecheck.sh
@@ -17,12 +17,12 @@ pipeline {
         '''
       }
     }
-    stage('Build app') {
+  stage('Build app') {
       steps {
         sh 'mvn clean install package'
       }
     }
-    stage('Push Artifact to S3') {
+  stage('Push Artifact to S3') {
       steps {
         sh 'aws s3 cp webapp/target/webapp.war s3://demos3nc'
       }
