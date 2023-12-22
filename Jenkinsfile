@@ -9,6 +9,14 @@ pipeline {
         sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=java_app -Dsonar.projectName='java_app' -Dsonar.host.url=$SonarQube_URL -Dsonar.token=$SonarQube_Access_Token'
       }
     }
+    tage('Qualitygatecheck') {
+      steps {
+        sh '''
+        chmod +x qualitygatecheck.sh
+        bash qualitygatecheck.sh
+        '''
+      }
+    }
     stage('Build app') {
       steps {
         sh 'mvn clean install package'
