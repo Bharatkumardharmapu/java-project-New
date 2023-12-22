@@ -6,10 +6,12 @@ pipeline {
   stages {
     stage('SonarQube Analysis') {
       steps {
-        sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=java_app -Dsonar.projectName='java_app' -Dsonar.host.url=$SonarQube_URL -Dsonar.token=$SonarQube_Access_Token'
+        sh '''
+        export PATH="/opt/sonar-scanner/bin:$PATH"
+        mvn clean verify sonar:sonar -Dsonar.projectKey=java_app -Dsonar.projectName='java_app' -Dsonar.host.url=http://54.219.133.159:9000 -Dsonar.token=sqp_913e9484ef2c10e59e26995e088675963181eb54        '''
       }
     }
-  stage('Qualitygatecheck') {
+    stage('Qualitygatecheck') {
       steps {
         sh '''
         chmod +x qualitygatecheck.sh
@@ -17,12 +19,12 @@ pipeline {
         '''
       }
     }
-  stage('Build app') {
+    stage('Build app') {
       steps {
         sh 'mvn clean install package'
       }
     }
-  stage('Push Artifact to S3') {
+    stage('Push Artifact to S3') {
       steps {
         sh 'aws s3 cp webapp/target/webapp.war s3://demos3nc'
       }
