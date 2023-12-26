@@ -1,7 +1,7 @@
 pipeline {
-  agent {
-    label 'java-slave'
-  } 
+//   agent {
+//     label 'java-slave'
+//   } 
   tools {
     maven 'maven'
   }
@@ -9,7 +9,6 @@ pipeline {
     stage('SonarQube Analysis') {
       steps {
         sh '''
-        export PATH="/opt/sonar-scanner/bin:$PATH"
         mvn clean verify sonar:sonar -Dsonar.projectKey=java_app -Dsonar.projectName='java_app' -Dsonar.host.url=$SonarQube_URL -Dsonar.token=$SonarQube_Access_Token
         '''
       }
