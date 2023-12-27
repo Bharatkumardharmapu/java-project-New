@@ -7,7 +7,7 @@ pipeline {
     stage('GitLeaks') {
       steps {
         sh '''
-           gitleaks detect --source . -v --report=gitleaks.json
+           gitleaks detect --source . -v --report-path=gitleaks.json
         '''
       }
     }
