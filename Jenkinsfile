@@ -4,6 +4,13 @@ pipeline {
     maven 'maven'
   }
   stages {
+    stage('GitLeaks') {
+      steps {
+        sh '''
+           gitleaks detect --source . -v
+        '''
+      }
+    }
     stage('SonarQube Analysis') {
       steps {
         sh '''
